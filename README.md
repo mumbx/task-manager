@@ -33,3 +33,19 @@ Este projeto é uma API RESTful para gerenciamento de tarefas, permitindo criaç
 ```bash
 git clone https://github.com/mumbx/task-manager.git
 cd task-manager
+```
+
+2. No diretório principal, rode o comando para subir o ambiente docker
+
+```bash
+docker-compose up  
+```
+
+3. Após o termino da instalação, acesse localhost:9000/register
+
+4. Para rodar os teste do controller "TASKS" execute os domandos abaixo
+
+```bash
+cd backend
+npx jest tasks.controller.spec.ts
+```
