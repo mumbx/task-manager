@@ -3,6 +3,7 @@ $(document).ready(function () {
     e.preventDefault();
 
     $('#name, #email, #password, #registerBtn').prop('disabled', true);
+    showLoading();
 
     const userData = {
       name: $('#name').val(),
@@ -14,13 +15,16 @@ $(document).ready(function () {
     errorBox.addClass('d-none');
 
     if (!userData.name || !userData.email || !userData.password) {
-      errorBox.text('Todos os campos são obrigatórios.').show();
+      errorBox.text('Todos os campos são obrigatórios.').removeClass('d-none');
+      $('#name, #email, #password, #registerBtn').prop('disabled', false);
+      hideLoading();
       return;
     }
 
     if (userData.password.length < 6) {
-      errorBox.text('A senha deve ter pelo menos 6 caracteres.');
-      errorBox.removeClass('d-none');
+      errorBox.text('A senha deve ter pelo menos 6 caracteres.').removeClass('d-none');
+      $('#name, #email, #password, #registerBtn').prop('disabled', false);
+      hideLoading();
       return;
     }
 
@@ -32,15 +36,17 @@ $(document).ready(function () {
       success: function (response) {
         console.log(response);
         alert('Cadastro realizado com sucesso!');
-        $('#name, #email, #password, #registerBtn').prop('disabled', false);
         window.location.href = '/login';
       },
       error: function (xhr) {
         console.log(xhr);
         const msg = xhr.responseJSON?.message || 'Erro ao cadastrar.';
-        $('#name, #email, #password, #registerBtn').prop('disabled', false);
         alert(msg);
       },
+      complete: function () {
+        $('#name, #email, #password, #registerBtn').prop('disabled', false);
+        hideLoading();
+      }
     });
   });
 });

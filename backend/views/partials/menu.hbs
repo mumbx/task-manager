@@ -1,21 +1,39 @@
-<nav class='navbar navbar-expand-lg fixed-top navbar-custom'>
-  <div class='container-fluid'>
-    <a class='navbar-brand text-light' href='#'>Task Manager</a>
-    <div class='collapse navbar-collapse'>
-      <ul class='navbar-nav me-auto'>
+<nav class="navbar navbar-expand-lg fixed-top navbar-custom">
+  <div class="container-fluid">
+    <a class="navbar-brand text-light" href="#">Task Manager</a>
+
+    <button
+      class="navbar-toggler "
+      type="button"
+      data-bs-toggle="collapse"
+      data-bs-target="#navbarSupportedContent"
+      aria-controls="navbarSupportedContent"
+      aria-expanded="false"
+      aria-label="Toggle navigation"
+    >
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+      <ul class="navbar-nav me-auto d-flex w-100">
         {{#if user}}
-          <li class='nav-item'>
-            <a class='nav-link' href='/dashboard'>Dashboard</a>
+          <li class="nav-item">
+            <a class="nav-link" href="/dashboard">Dashboard</a>
           </li>
-          <li class='nav-item ml-auto'>
-            <a class='nav-link' id="logoutBtn" href='#'>Sair</a>
+          <li class="nav-item ms-auto">
+            <a
+              class="nav-link btn btn-danger text-white"
+              id="logoutBtn"
+              href="#"
+              >Sair</a
+            >
           </li>
         {{else}}
-          <li class='nav-item'>
-            <a class='nav-link text-light' href='/login'>Login</a>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="/login">Login</a>
           </li>
-          <li class='nav-item'>
-            <a class='nav-link text-light' href='/register'>Cadastro</a>
+          <li class="nav-item">
+            <a class="nav-link text-light" href="/register">Cadastro</a>
           </li>
         {{/if}}
       </ul>

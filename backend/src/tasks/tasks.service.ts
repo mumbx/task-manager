@@ -18,6 +18,12 @@ export class TasksService {
     return this.prisma.task.findUnique({ where: { id } });
   }
 
+  findByUserId(userId: number) {
+    return this.prisma.task.findMany({
+      where: { userId },
+    });
+  }
+
   update(id: number, data: Partial<CreateTaskDto>) {
     return this.prisma.task.update({
       where: { id },

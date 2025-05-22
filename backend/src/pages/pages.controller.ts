@@ -42,7 +42,7 @@ export class PagesController {
         const user = this.getUserFromToken(req);
         if (!user) {
             return res.redirect('/login');
-        }
+        }        
         return res.render('dashboard', { user });
     }
 }
