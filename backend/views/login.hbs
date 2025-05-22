@@ -1,0 +1,18 @@
+<div class="container d-flex justify-content-center align-items-center login-container">
+  <div class="card shadow p-5 login-box w-100"  style="max-width: 450px;">
+    <div class="text-center mb-4">
+      <img src="https://tecsagroup.com.br/src/img/tecsa-colored.svg" alt="Logo Tecsa" class="img-fluid" style="max-width: 200px;" />
+    </div>
+    <form method="POST" action="/auth/login">
+      <div class="mb-3">
+        <label for="email" class="form-label text-light">E-mail</label>
+        <input type="email" class="form-control" id="email" name="email" placeholder="Digite seu e-mail" required>
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label text-light">Senha</label>
+        <input type="password" class="form-control" id="password" name="password" placeholder="Digite sua senha" required>
+      </div>
+      <button type="submit" class="btn btn-success w-100 mt-3 btn-lg btn-block">Entrar</button>
+    </form>
+  </div>
+</div>

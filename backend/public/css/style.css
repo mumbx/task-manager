@@ -1,0 +1,40 @@
+body {
+  padding-top: 56px;
+  background-color: #efeae5;
+}
+
+.navbar {
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 10;
+}
+
+.navbar-custom {
+  background-color: rgb(31 81 156) !important;
+}
+
+.navbar-custom .navbar-brand,
+.navbar-custom .nav-link {
+  color: #fff !important;
+}
+
+.navbar-custom .nav-link:hover {
+  color: #ddd !important;
+}
+
+.login-box {
+  background-color: rgb(31 81 156);
+}
+
+.login-container {
+  height: 80vh;
+}
+
+.register-box {
+  background-color: rgb(31 81 156);
+}
+
+.register-container {
+  height: 80vh;
+}
