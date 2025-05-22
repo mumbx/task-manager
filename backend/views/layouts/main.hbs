@@ -15,11 +15,18 @@
 
     <!-- Estilos personalizados -->
     <link rel="stylesheet" href="/css/style.css" />
+    <script src="/js/register.js"></script>
+    <script src="/js/login.js"></script>
+    <script src="/js/logout.js"></script>
+    <script src="/js/auth.js"></script>
   </head>
   <body>
-  {{> menu }}
-  <div class="container">
-    {{{ body }}}
-  </div>
-</body>
+    {{> menu }}
+    <div class="container">
+      {{{ body }}}
+    </div>
+    <div class="alert alert-danger w-75 d-none m-auto" id="errorBox" role="alert">
+      This is a primary alert with Give it a click if you like.
+    </div>
+  </body>
 </html>

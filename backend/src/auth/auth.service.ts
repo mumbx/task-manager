@@ -1,4 +1,4 @@
-import { Injectable, UnauthorizedException } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
 import { PrismaService } from '../prisma/prisma.service'; // ajuste o caminho conforme seu projeto
 import { compare } from 'bcrypt';
@@ -21,8 +21,15 @@ export class AuthService {
 
   async login(user: any) {
     const payload = { email: user.email, sub: user.id };
+    const token = this.jwtService.sign(payload);
+    
     return {
-      access_token: this.jwtService.sign(payload),
+      access_token: token,
+      user: {
+        id: user.id,
+        email: user.email,
+        name: user.name, 
+      }
     };
   }
 }
