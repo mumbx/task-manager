@@ -15,9 +15,9 @@ export class CreateTaskDto {
     @IsNotEmpty()
     description: string;
 
-    @IsEnum(TaskStatus)
     @IsOptional()
-    status?: TaskStatus;
+    @IsEnum(TaskStatus)
+    status?: TaskStatus = TaskStatus.PENDING;  
 
     @IsNotEmpty()
     userId: number;

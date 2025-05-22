@@ -1,4 +1,4 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards, Res, HttpStatus } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete, UseGuards, Res, HttpStatus, Put } from '@nestjs/common';
 import { TasksService } from './tasks.service';
 import { CreateTaskDto } from './dto/create-task.dto';
 import { UpdateTaskDto } from './dto/update-task.dto';
@@ -11,8 +11,12 @@ export class TasksController {
   constructor(private readonly tasksService: TasksService) { }
 
   @Post()
-  create(@Body() createTaskDto: CreateTaskDto) {
-    return this.tasksService.create(createTaskDto);
+  async create(@Body() createTaskDto: CreateTaskDto, @Res() res: Response) {
+    const newTask = await this.tasksService.create(createTaskDto);
+    return res
+      .status(HttpStatus.CREATED)
+      .location(`/tasks/${newTask.id}`)
+      .json(newTask);
   }
 
   @Get()
@@ -48,9 +52,26 @@ export class TasksController {
     }
   }
 
-  @Patch(':id')
-  update(@Param('id') id: string, @Body() updateTaskDto: UpdateTaskDto) {
-    return this.tasksService.update(+id, updateTaskDto);
+  @Put(':id')
+  async update(
+    @Param('id') id: string,
+    @Body() updateTaskDto: UpdateTaskDto,
+    @Res() res: Response,
+  ) {
+    try {
+      const updated = await this.tasksService.update(+id, updateTaskDto);
+
+      if (!updated) {
+        return res.status(404).json({ message: 'Tarefa não encontrada.' });
+      }
+
+      return res.status(HttpStatus.OK).send();
+    } catch (error) {
+      return res.status(HttpStatus.BAD_REQUEST).json({
+        message: 'Erro ao atualizar tarefa.',
+        error: error.message,
+      });
+    }
   }
 
   @Delete(':id')
@@ -58,7 +79,7 @@ export class TasksController {
     try {
       const removed = await this.tasksService.remove(+id);
 
-      if (!removed) {        
+      if (!removed) {
         return res.status(HttpStatus.NOT_FOUND).json({
           message: `Tarefa com ID ${id} não encontrada.`,
         });

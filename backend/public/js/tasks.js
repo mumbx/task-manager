@@ -169,4 +169,89 @@ $(document).ready(function () {
       }
     });
   });
+
+
+  // edição da task
+  $('#tasksTable').on('click', '.edit-task', function () {
+    const taskId = $(this).data('id');
+  
+    $.ajax({
+      url: `/tasks/${taskId}`,
+      method: 'GET',
+      success: function (task) {
+        $('#taskTitle').val(task.title);
+        $('#taskDescription').val(task.description);
+        $('#taskStatus').val(task.status);
+        $('#taskErrorBox').addClass('d-none').text('');
+  
+        $('#createTaskModalLabel').text('Editar Tarefa');
+  
+        $('#saveTaskBtn').text('Atualizar');
+  
+        $('#createTaskForm').data('task-id', taskId);
+  
+        const modal = new bootstrap.Modal(document.getElementById('createTaskModal'));
+        modal.show();
+      },
+      error: function () {
+        alert('Erro ao carregar dados da tarefa para edição.');
+      }
+    });
+  });
+  
+  $('#createTaskForm').off('submit').on('submit', function (e) {
+    e.preventDefault();
+  
+    const title = $('#taskTitle').val();
+    const description = $('#taskDescription').val();
+    const status = $('#taskStatus').val();
+    const errorBox = $('#taskErrorBox');
+    const taskId = $(this).data('task-id');
+  
+    $('#taskTitle, #taskDescription, #taskStatus, #saveTaskBtn').prop('disabled', true);
+    errorBox.addClass('d-none');
+    showLoading();
+  
+    if (!title || !description) {
+      errorBox.text('Título e descrição são obrigatórios.').removeClass('d-none');
+      $('#taskTitle, #taskDescription, #taskStatus, #saveTaskBtn').prop('disabled', false);
+      hideLoading();
+      return;
+    }
+  
+    const ajaxOptions = {
+      contentType: 'application/json',
+      data: JSON.stringify({ title, description, status }),
+      success: function () {
+        const modalEl = document.getElementById('createTaskModal');
+        const modalInstance = bootstrap.Modal.getInstance(modalEl);
+        if (modalInstance) modalInstance.hide();
+        fetchTasks(userId);
+        $('#createTaskForm')[0].reset();
+        $('#createTaskForm').removeData('task-id');
+        $('#createTaskModalLabel').text('Nova Tarefa');
+        $('#saveTaskBtn').text('Salvar');
+      },
+      error: function (xhr) {
+        const msg = xhr.responseJSON?.message || 'Erro ao salvar tarefa.';
+        errorBox.text(msg).removeClass('d-none');
+      },
+      complete: function () {
+        $('#taskTitle, #taskDescription, #taskStatus, #saveTaskBtn').prop('disabled', false);
+        hideLoading();
+      }
+    };
+  
+    if (taskId) {
+      ajaxOptions.url = `/tasks/${taskId}`;
+      ajaxOptions.type = 'PUT';
+    } else {
+      ajaxOptions.url = '/tasks';
+      ajaxOptions.type = 'POST';
+      ajaxOptions.data = JSON.stringify({ ...JSON.parse(ajaxOptions.data), userId });
+    }
+  
+    $.ajax(ajaxOptions);
+  });
+
 });
