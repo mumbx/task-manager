@@ -16,6 +16,7 @@ Este projeto é uma API RESTful para gerenciamento de tarefas, permitindo criaç
 - NestJS (framework Node.js)
 - MySQL 5.7
 - Docker e Docker Compose
+- Template engine HBS para gerenciar as views
 
 ---
 
